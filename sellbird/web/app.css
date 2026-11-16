@@ -746,6 +746,21 @@ details[open] > summary::before { rotate: 45deg; }
 .banner.wait { background: var(--wait-bg); color: var(--wait); border-color: var(--wait-line); }
 .banner p { color: var(--text-2); }
 
+.studio-banner {
+  display: flex; align-items: center; gap: var(--sp-3);
+  margin-bottom: var(--sp-5); padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--accent-line); border-radius: var(--r-md);
+  background: var(--accent-soft); color: var(--text);
+  text-decoration: none; box-shadow: var(--shadow-border);
+}
+.studio-banner .icon { color: var(--accent); flex: 0 0 auto; }
+.studio-banner span { flex: 1; }
+.studio-banner b { display: block; color: var(--accent); font-size: var(--fs-body); }
+.studio-banner small { display: block; color: var(--text-2); margin-top: 2px; }
+.studio-banner-arrow { transition: transform 120ms ease-out; }
+.studio-banner:hover { border-color: var(--accent); box-shadow: var(--shadow-border-hover); }
+.studio-banner:hover .studio-banner-arrow { transform: translateX(3px); }
+
 /* ── Discover ────────────────────────────────────────────────── */
 
 .prov-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--sp-3); margin-bottom: var(--sp-5); }

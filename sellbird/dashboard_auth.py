@@ -13,10 +13,12 @@ every request passes, in order:
    this origin, and ``Sec-Fetch-Site`` must be ``same-origin`` or ``none``.
    (A top-level navigation to ``/`` is the one exception: the shell carries
    no data.) No CORS headers are ever sent, so preflights fail.
-3. Public shell: only ``GET``/``HEAD`` of ``/`` and ``/static/*`` (HTML, CSS,
-   JS, fonts; no data, no token) skip authentication, plus ``/api/instance``
-   (a random id per core process, so a new tab's token handoff can tell the
-   core from another server on the port; it unlocks nothing).
+3. Public shell: only ``GET``/``HEAD`` of ``/`` and ``/studio`` plus
+   ``/static/*`` (HTML, CSS, JS, fonts; no data, no token) skip authentication,
+   plus ``/api/instance`` (a random id per core process, so a new tab's token
+   handoff can tell the core from another server on the port; it unlocks
+   nothing). The Studio HTML is a shell; its API calls still require the
+   bearer token.
 4. Bearer token: everything else needs ``Authorization: Bearer <token>``,
    compared in constant time. Cookies and query strings are never read, so
    a browser can't attach the token on an attacker's behalf, and a
@@ -295,6 +297,8 @@ def is_public_path(method: str, path: str) -> bool:
     if method not in ("GET", "HEAD"):
         return False
     if path == "/":
+        return True
+    if path == "/studio":
         return True
     # ── Phase 6: which core answers here (a random id, never the token; R6-2) ──
     if path == "/api/instance":

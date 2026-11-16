@@ -75,6 +75,31 @@ Sellbird thinks through the Claude Code CLI on your Claude Pro or Max plan, or t
 
 How the loop, the budget and the isolation work: [How Sellbird works](docs/how-it-works.md).
 
+## Local Multi-Product AI Studio
+
+The Local AI Studio is the zero-cost, no-cloud path for running the multi-product
+sales workflows. It uses Ollama at `http://localhost:11434/api/chat` with
+`qwen3:8b`, and does not fall back to Claude, Codex, or any hosted API when
+Ollama is unavailable. The studio provides product selection, local prospect
+loading, hardware telemetry, all eight local workflows, traceable inference
+logs, and a durable task queue for offline Ollama failures.
+
+```bash
+# Install the local inference dependencies.
+python -m pip install -e .
+
+# Install and start Ollama separately, then pull the local model.
+ollama serve
+ollama pull qwen3:8b
+
+# Start Sellbird and open the printed private dashboard URL.
+sellbird dashboard
+```
+
+Open `/studio` from the dashboard URL. The complete architecture, licence
+verification, hardware tiers, failure behavior, and offline acceptance test
+are documented in [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md).
+
 ## Quick start
 
 You need:
@@ -174,6 +199,7 @@ database, the logs and the dashboard token.
 | [Configuration and commands](docs/configuration.md) | `.env`, `sellbird.yaml` and every command |
 | [Extensions](docs/extensions.md) | Adding routes, heartbeat steps and commands from a separate package |
 | [Using a ChatGPT plan (Codex)](docs/codex.md) | Running on Codex instead of Claude |
+| [Local Multi-Product AI Technical Report](TECHNICAL_REPORT.md) | Local Ollama architecture, licences, hardware, failure handling and acceptance test |
 | [Legal and deliverability](docs/deliverability.md) | The rules you're sending under, and warmup |
 | [Microsoft 365](docs/microsoft365.md) · [Precleared](docs/precleared.md) | Provider setup guides |
 | [Docker](docs/docker.md) · [Troubleshooting](docs/troubleshooting.md) · [Roadmap](docs/roadmap.md) | Running, fixing and what's next |
