@@ -623,7 +623,7 @@ def compliance_footer_lines(config) -> list[str]:
     """The lines added under every cold email: address, then opt-out line."""
     compliance = compliance_of(config)
     return [line for line in (compliance.postal_address.strip(),
-                              compliance.opt_out_line.strip()) if line]
+                             compliance.opt_out_line.strip()) if line]
 
 
 def compliance_notice(config) -> str:
@@ -696,31 +696,31 @@ class UsageConfig(BaseModel):
         return v
 
 
-BRAIN_PROVIDERS = ("claude", "codex")
+BRAIN_PROVIDERS = ("claude", "codex", "ollama")
 CODEX_REASONING_EFFORTS = ("minimal", "low", "medium", "high", "xhigh")
 
-# Model names are passed to a CLI, so they must look like a model name and
+# Model names are passed to a CLI/API, so they must look like a model name and
 # never like a flag ("-x") or anything a shell would treat specially.
 _MODEL_NAME_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:/\[\]-]{0,127}$")
 
 
 class BrainConfig(BaseModel):
-    """Which subscription Sellbird thinks with.
+    """Which inference engine Sellbird thinks with.
 
-    ``claude`` (default) runs Claude Code headless on your Claude plan.
-    ``codex`` runs Codex on your ChatGPT plan. There is never an automatic
-    fallback between them, and an explicit ``model`` only affects Sellbird —
-    your own Claude Code / Codex settings are never read or changed.
+    ``ollama`` (local default) runs open-weight models locally on Ollama.
+    ``claude`` runs Claude Code headless.
+    ``codex`` runs Codex. There is never an automatic fallback to a cloud API.
     """
 
-    provider: str = "claude"
-    model: str = ""  # empty = the provider's own default
+    provider: str = "ollama"
+    model: str = "qwen3:8b"
     reasoning_effort: str = ""  # codex only; empty = model default
+    ollama_base_url: str = "http://localhost:11434"
 
     @field_validator("provider", mode="before")
     @classmethod
     def _valid_provider(cls, v) -> str:
-        v = str(v or "claude").strip().lower()
+        v = str(v or "ollama").strip().lower()
         if v not in BRAIN_PROVIDERS:
             raise ValueError(
                 f"'{v}' is not a supported brain provider. "
@@ -961,7 +961,7 @@ def load_brain_config(config_path: str | None = None) -> BrainConfig:
 
     Training runs before a product is configured (the template sellbird.yaml
     still has placeholder values), but it must still think with the
-    provider the user chose. A missing file or section means the Claude
+    provider the user chose. A missing file or section means the local Ollama
     default; an invalid section raises rather than silently switching
     providers.
     """

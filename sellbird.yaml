@@ -1,3 +1,6 @@
+brain:
+  provider: "ollama"
+  model: "qwen3:8b"
 persona:
   name: "Alex"
   company: "Your Company"
@@ -29,8 +32,8 @@ product:
 
 icp:
   industries:
-    - "SaaS"
-    - "Marketing Agency"
+    - "contractor"
+    - "lawyer"
   company_size: "10-200 employees"
   titles:
     - "VP Marketing"
@@ -39,9 +42,6 @@ icp:
     - "Director of Marketing"
   geography:
     - "United States"
-  # Roles that signal a company is in-market RIGHT NOW (a company hiring a
-  # "Head of Growth" is shopping for growth tooling). Used for careers-page
-  # scanning and job-board discovery. Empty = fall back to titles above.
   hiring_signals: []
 
 channels:
@@ -124,7 +124,7 @@ compliance:
   # Added under every cold email (never replies). US law (CAN-SPAM) requires a
   # postal address you receive mail at: a street address, PO box or virtual
   # mailbox. Until it's set, cold email still sends, with a warning.
-  postal_address: ""
+  postal_address: "BBDITM Campus, Faizabad Road, Lucknow, Uttar Pradesh 227105, India"
   # Any wording works: Sellbird reads every reply for a request to stop.
   opt_out_line: "Not interested? Just let me know and I won't email you again."
   # Never email these, cold or in reply: competitors, your existing customers,
